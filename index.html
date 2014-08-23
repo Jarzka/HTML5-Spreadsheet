@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html ng-app="spreadsheet">
+    <head>
+        <meta charset="UTF-8">
+
+        <title>HTML5 SpreadSheet</title>
+
+        <link rel="stylesheet" type="text/css" href="style/style.css">
+
+        <script src="scripts/js/libraries/angular.js"></script>
+        <script src="scripts/js/libraries/jquery-1.11.1.js"></script>
+        <script src="scripts/js/libraries/spin.min.js"></script>
+
+        <script src="scripts/js/app.js"></script>
+        <script src="scripts/js/controllers/SpreadsheetController.js"></script>
+        <script src="scripts/js/controllers/MenuController.js"></script>
+        <script src="scripts/js/factories/SpreadsheetFactory.js"></script>
+    </head>
+    <body>
+        <div id="menubar" ng-controller="menuController">
+
+            <ul class="top-menu">
+                <li id="file"><a href="">File</a>
+                    <ul class="sub-menu">
+                        <li id="new" ng-click="newFile()"><a href="#">New</a></li>
+                        <li id="save" ng-click="save()"><a href="#">Save</a></li>
+                        <li id="open" ng-click="open()"><a href="#">Open</a></li>
+                        <li id="export-excel"><a href="#">Export to Excel</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="top-menu">
+                <li id="table"><a href="">Table</a>
+                    <ul class="sub-menu">
+                        <li id="add-row" ng-click="addRow()"><a href="#">Add row</a></li>
+                        <li id="remove-row" ng-click="removeRow()"><a href="#">Remove row</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="top-menu">
+                <li id="table"><a href="">Help</a>
+                    <ul class="sub-menu">
+                        <li id="quick-guide" ng-click="quickGuide()"><a href="#">Quick Guide</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <span class="logo">HTML5 SpreadSheet</span>
+
+        </div>
+
+        <table id="spreadsheet-table" ng-controller="spreadsheetController">
+            <thead>
+            <tr>
+                <th class="first-empty-cell"></th>
+                <th class="column-letter" ng-repeat="column in spreadsheetFactory.columns" ng-bind="column"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="row in spreadsheetFactory.rows">
+                    <td class="row-number" ng-bind="row"></td>
+                    <td ng-repeat="column in spreadsheetFactory.columns">
+                        <div class="cell-content">
+                            <input class="input" ng-model="spreadsheetFactory.cells[column + row]"></input>
+                            <div class="output" ng-bind="computeCellOutput(column + row)"></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            <a class="note-close" href="#"></a>
+            How to use:
+            <br>- All formula entries start with an equal sign (=). Example: = 5 + 3
+            <br>- You can create a cell reference by typing column and row. Example: = A1 + B3
+        </div>
+
+        <form id="load-file-form">
+            <input type="file" id="load-file">
+        </form>
+
+    </body>
+</html>
